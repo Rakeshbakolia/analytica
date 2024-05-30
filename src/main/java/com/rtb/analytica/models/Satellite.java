@@ -3,6 +3,7 @@ package com.rtb.analytica.models;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.Date;
 import java.util.Set;

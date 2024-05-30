@@ -1,6 +1,7 @@
 package com.rtb.analytica.controllers;
 
 import com.rtb.analytica.requests.LauncherRequest;
+import com.rtb.analytica.requests.SatelliteFilterRequest;
 import com.rtb.analytica.requests.SatelliteRequest;
 import com.rtb.analytica.responses.LauncherResponse;
 import com.rtb.analytica.responses.SatelliteResponse;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/satellite")
@@ -43,6 +47,11 @@ public class SatelliteController {
     public ResponseEntity<Boolean> delete(@PathVariable String satelliteId){
         satelliteService.delete(satelliteId);
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<SatelliteResponse>> filter(@ModelAttribute SatelliteFilterRequest request){
+        return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
     }
 
 }

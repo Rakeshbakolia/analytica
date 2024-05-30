@@ -8,6 +8,7 @@ import com.rtb.analytica.manager.SatelliteManager;
 import com.rtb.analytica.models.Launcher;
 import com.rtb.analytica.models.Satellite;
 import com.rtb.analytica.requests.LauncherRequest;
+import com.rtb.analytica.requests.SatelliteFilterRequest;
 import com.rtb.analytica.requests.SatelliteRequest;
 import com.rtb.analytica.responses.LauncherResponse;
 import com.rtb.analytica.responses.SatelliteResponse;
@@ -114,5 +115,9 @@ public class SatelliteService {
         Satellite satellite = satelliteManager.getSatellite(satelliteId)
                 .orElseThrow(()-> new RuntimeException("Could not find satellite"));
         satelliteManager.delete(satellite);
+    }
+
+    public List<Satellite> filter(SatelliteFilterRequest request){
+        return Collections.emptyList();
     }
 }
