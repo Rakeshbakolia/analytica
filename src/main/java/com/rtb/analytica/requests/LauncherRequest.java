@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Data
 public class LauncherRequest {
-    @JsonProperty("launcher_id")
     private String launcherId;
     private TypeEnum type;
     private String registrationDate;

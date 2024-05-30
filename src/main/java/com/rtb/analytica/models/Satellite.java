@@ -2,6 +2,7 @@ package com.rtb.analytica.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 @Entity @Table(name = "satellite")
 @Builder
+@Accessors(chain = true)
 public class Satellite{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

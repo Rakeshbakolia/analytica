@@ -20,11 +20,19 @@ public class SatelliteManager {
         return satelliteRepository.saveAll(satellites);
     }
 
+    public Satellite save(Satellite satellite){
+        return satelliteRepository.save(satellite);
+    }
+
     public Set<Satellite> getSatellites(Collection<String> satelliteIds) {
         return satelliteRepository.findBySatelliteIdIn(satelliteIds);
     }
 
     public Optional<Satellite> getSatellite(String satelliteId){
      return satelliteRepository.findBySatelliteId(satelliteId);
+    }
+
+    public void delete(Satellite satellite){
+        satelliteRepository.delete(satellite);
     }
 }

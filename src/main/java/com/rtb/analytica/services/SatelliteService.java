@@ -7,6 +7,9 @@ import com.rtb.analytica.manager.LauncherManager;
 import com.rtb.analytica.manager.SatelliteManager;
 import com.rtb.analytica.models.Launcher;
 import com.rtb.analytica.models.Satellite;
+import com.rtb.analytica.requests.LauncherRequest;
+import com.rtb.analytica.requests.SatelliteRequest;
+import com.rtb.analytica.responses.LauncherResponse;
 import com.rtb.analytica.responses.SatelliteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,5 +72,47 @@ public class SatelliteService {
     public SatelliteResponse getSatellite(String satelliteId) {
         Satellite satellite =  satelliteManager.getSatellite(satelliteId).orElseThrow(()-> new RuntimeException("No satellite found"));
         return objectMapper.convertValue(satellite, SatelliteResponse.class);
+    }
+
+    public SatelliteResponse create(SatelliteRequest request){
+        if(Objects.isNull(request.getLauncherId())){
+            throw new RuntimeException("launcherId not provided");
+        }
+        Launcher launcher = launcherManager.getLauncher(request.getLauncherId()).orElseThrow(() -> new RuntimeException("Launcher not found"));
+        if(satelliteManager.getSatellite(request.getSatelliteId()).isPresent()){
+            throw new RuntimeException("Satellite already present");
+        }
+        Satellite satellite = new Satellite();
+        satellite.setSatelliteId(request.getSatelliteId()).setCountry(request.getCountry()).setMass(request.getMass()).setLauncher(launcher);
+        try {
+            satellite.setLaunchDate(Objects.nonNull(request.getLaunchDate()) ? new SimpleDateFormat("dd-MM-yyyy").parse(request.getLaunchDate()) : null);
+        }catch (Exception e){
+            throw new RuntimeException("Wrong Date format it should be dd-MM-yyyy");
+        }
+        satellite = satelliteManager.save(satellite);
+        return objectMapper.convertValue(satellite, SatelliteResponse.class);
+    }
+
+    public SatelliteResponse update(String satelliteId, SatelliteRequest request){
+        Launcher launcher = null;
+        if(Objects.nonNull(request.getLauncherId())){
+            launcher = launcherManager.getLauncher(request.getLauncherId()).orElseThrow(()-> new RuntimeException("Could not find launcher"));
+        }
+        Satellite satellite = satelliteManager.getSatellite(satelliteId).orElseThrow(() -> new RuntimeException("Satellite not found"));
+        satellite.setCountry(Objects.nonNull(request.getCountry()) ? request.getCountry() : satellite.getCountry())
+                .setMass(Objects.nonNull(request.getMass()) ? request.getMass() : satellite.getMass())
+                .setLauncher(Objects.nonNull(launcher) ? launcher : satellite.getLauncher());
+        try{
+            satellite.setLaunchDate(Objects.nonNull(request.getLaunchDate()) ? new SimpleDateFormat("dd-MM-yyyy").parse(request.getLaunchDate()) : satellite.getLaunchDate());
+        }catch (Exception e){
+            throw new RuntimeException("Wrong Date format it should be dd-MM-yyyy");
+        }
+        return objectMapper.convertValue(satelliteManager.save(satellite), SatelliteResponse.class);
+    }
+
+    public void delete(String satelliteId){
+        Satellite satellite = satelliteManager.getSatellite(satelliteId)
+                .orElseThrow(()-> new RuntimeException("Could not find satellite"));
+        satelliteManager.delete(satellite);
     }
 }

@@ -3,6 +3,7 @@ package com.rtb.analytica.models;
 import com.rtb.analytica.enums.TypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Accessors(chain = true)
 public class Launcher{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

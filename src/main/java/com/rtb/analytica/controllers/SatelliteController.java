@@ -1,12 +1,14 @@
 package com.rtb.analytica.controllers;
 
 import com.rtb.analytica.requests.LauncherRequest;
+import com.rtb.analytica.requests.SatelliteRequest;
 import com.rtb.analytica.responses.LauncherResponse;
 import com.rtb.analytica.responses.SatelliteResponse;
 import com.rtb.analytica.services.SatelliteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,17 +30,18 @@ public class SatelliteController {
     }
 
     @PostMapping("")
-    public ResponseEntity<LauncherResponse> create(@RequestBody LauncherRequest request){
-        return new ResponseEntity<>(new LauncherResponse(), HttpStatus.CREATED);
+    public ResponseEntity<SatelliteResponse> create(@RequestBody SatelliteRequest request){
+        return new ResponseEntity<>(satelliteService.create(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{satelliteId}")
-    public ResponseEntity<LauncherResponse> update(@PathVariable String satelliteId, @RequestBody LauncherRequest request){
-        return new ResponseEntity<>(new LauncherResponse(), HttpStatus.OK);
+    @PutMapping("/{satelliteId}")
+    public ResponseEntity<SatelliteResponse> update(@PathVariable String satelliteId, @RequestBody SatelliteRequest request){
+        return new ResponseEntity<>(satelliteService.update(satelliteId, request), HttpStatus.OK);
     }
 
     @DeleteMapping("/{satelliteId}")
     public ResponseEntity<Boolean> delete(@PathVariable String satelliteId){
+        satelliteService.delete(satelliteId);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 

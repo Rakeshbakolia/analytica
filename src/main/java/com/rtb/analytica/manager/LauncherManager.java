@@ -20,6 +20,14 @@ public class LauncherManager {
         return launcherRepository.saveAll(launchers);
     }
 
+    public Launcher save(Launcher launcher){
+        return launcherRepository.save(launcher);
+    }
+
+    public void delete(Launcher launcher){
+        launcherRepository.delete(launcher);
+    }
+
     public Optional<Launcher> getLauncher(String launcherId){
         return launcherRepository.findByLauncherId(launcherId);
     }

@@ -22,16 +22,17 @@ public class LauncherController {
 
     @PostMapping("")
     public ResponseEntity<LauncherResponse> create(@RequestBody LauncherRequest request){
-        return new ResponseEntity<>(new LauncherResponse(), HttpStatus.CREATED);
+        return new ResponseEntity<>(launcherService.create(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{launcherId}")
+    @PutMapping("/{launcherId}")
     public ResponseEntity<LauncherResponse> update(@PathVariable String launcherId, @RequestBody LauncherRequest request){
-        return new ResponseEntity<>(new LauncherResponse(), HttpStatus.OK);
+        return new ResponseEntity<>(launcherService.update(launcherId, request), HttpStatus.OK);
     }
 
     @DeleteMapping("/{launcherId}")
     public ResponseEntity<Boolean> delete(@PathVariable String launcherId){
+        launcherService.delete(launcherId);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }
