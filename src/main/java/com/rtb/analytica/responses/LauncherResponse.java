@@ -9,7 +9,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LauncherResponse {
-    private String launcherId;
+    private String launcherCode;
     private TypeEnum type;
     private String registrationDate;
 }

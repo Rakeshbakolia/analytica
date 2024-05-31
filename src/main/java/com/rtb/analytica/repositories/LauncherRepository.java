@@ -10,6 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface LauncherRepository extends JpaRepository<Launcher, Long> {
-    Set<Launcher> findByLauncherIdIn(Collection<String> launcherIds);
-    Optional<Launcher> findByLauncherId(String launcherId);
+    Set<Launcher> findByLauncherCodeIn(Collection<String> launcherCodes);
+    Optional<Launcher> findByLauncherCode(String launcherCode);
 }

@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+
 @Configuration
 public class Config {
 
@@ -15,7 +17,9 @@ public class Config {
 
     @Bean
     public ObjectMapper objectMapper(){
-        return new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(new SimpleDateFormat("dd-MM-yyyy"));
+        return mapper;
     }
 
 }

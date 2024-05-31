@@ -8,7 +8,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SatelliteResponse {
-    private String satelliteId;
+    private String satelliteCode;
     private String country;
     private String launchDate;
     private Double mass;

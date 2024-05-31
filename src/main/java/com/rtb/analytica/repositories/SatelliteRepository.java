@@ -11,6 +11,6 @@ import java.util.Set;
 
 @Repository
 public interface SatelliteRepository extends JpaRepository<Satellite, Long>, JpaSpecificationExecutor<Satellite> {
-    Set<Satellite> findBySatelliteIdIn(Collection<String> satelliteIds);
-    Optional<Satellite> findBySatelliteId(String satelliteId);
+    Set<Satellite> findBySatelliteCodeIn(Collection<String> satelliteCodes);
+    Optional<Satellite> findBySatelliteCode(String satelliteCode);
 }

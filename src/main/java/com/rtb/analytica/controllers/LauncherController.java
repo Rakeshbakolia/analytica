@@ -15,9 +15,9 @@ public class LauncherController {
     @Autowired
     private LauncherService launcherService;
 
-    @GetMapping("/{launcherId}")
-    public ResponseEntity<LauncherResponse> getLauncher(@PathVariable String launcherId){
-        return new ResponseEntity<>(launcherService.getLauncher(launcherId), HttpStatus.OK);
+    @GetMapping("/{launcherCode}")
+    public ResponseEntity<LauncherResponse> getLauncher(@PathVariable String launcherCode){
+        return new ResponseEntity<>(launcherService.getLauncher(launcherCode), HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -25,14 +25,14 @@ public class LauncherController {
         return new ResponseEntity<>(launcherService.create(request), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{launcherId}")
-    public ResponseEntity<LauncherResponse> update(@PathVariable String launcherId, @RequestBody LauncherRequest request){
-        return new ResponseEntity<>(launcherService.update(launcherId, request), HttpStatus.OK);
+    @PutMapping("/{launcherCode}")
+    public ResponseEntity<LauncherResponse> update(@PathVariable String launcherCode, @RequestBody LauncherRequest request){
+        return new ResponseEntity<>(launcherService.update(launcherCode, request), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{launcherId}")
-    public ResponseEntity<Boolean> delete(@PathVariable String launcherId){
-        launcherService.delete(launcherId);
+    @DeleteMapping("/{launcherCode}")
+    public ResponseEntity<Boolean> delete(@PathVariable String launcherCode){
+        launcherService.delete(launcherCode);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

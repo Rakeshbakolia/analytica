@@ -1,14 +1,11 @@
 package com.rtb.analytica.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rtb.analytica.enums.TypeEnum;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class LauncherRequest {
-    private String launcherId;
+    private String launcherCode;
     private TypeEnum type;
     private String registrationDate;
 }

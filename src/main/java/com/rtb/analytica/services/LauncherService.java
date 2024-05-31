@@ -33,26 +33,26 @@ public class LauncherService {
     public void init(){
         log.info("Fetching all the launchers from isro...");
         List<IsroLauncherResponse.IsroLauncher> launchers = isroClient.getLaunchers();
-        Set<String> newLauncherIds = launchers.stream().map(IsroLauncherResponse.IsroLauncher::getId).collect(Collectors.toSet());
-        Set<String> existingLauncherIds = launcherManager.getLaunchers(newLauncherIds).stream().map(Launcher::getLauncherId).collect(Collectors.toSet());
-        List<Launcher> launcherEntities = launchers.stream().filter(launcher -> !existingLauncherIds.contains(launcher.getId())).map(launcher -> Launcher.builder()
-                .launcherId(launcher.getId()).build()
+        Set<String> newLauncherCodes = launchers.stream().map(IsroLauncherResponse.IsroLauncher::getId).collect(Collectors.toSet());
+        Set<String> existingLauncherCodes = launcherManager.getLaunchers(newLauncherCodes).stream().map(Launcher::getLauncherCode).collect(Collectors.toSet());
+        List<Launcher> launcherEntities = launchers.stream().filter(launcher -> !existingLauncherCodes.contains(launcher.getId())).map(launcher -> Launcher.builder()
+                .launcherCode(launcher.getId()).build()
         ).toList();
         launcherManager.saveAll(launcherEntities);
         log.info("launchers are successfully fetched from isro and saved into database");
     }
 
-    public LauncherResponse getLauncher(String launcherId){
-        Launcher launcher = launcherManager.getLauncher(launcherId).orElseThrow(()->new RuntimeException("Launcher not found"));
+    public LauncherResponse getLauncher(String launcherCode){
+        Launcher launcher = launcherManager.getLauncher(launcherCode).orElseThrow(()->new RuntimeException("Launcher not found"));
         return objectMapper.convertValue(launcher, LauncherResponse.class);
     }
 
     public LauncherResponse create(LauncherRequest request){
-        if(launcherManager.getLauncher(request.getLauncherId()).isPresent()){
+        if(launcherManager.getLauncher(request.getLauncherCode()).isPresent()){
             throw new RuntimeException("Launcher already present");
         }
         Launcher launcher = new Launcher();
-        launcher.setLauncherId(request.getLauncherId());
+        launcher.setLauncherCode(request.getLauncherCode());
         launcher.setType(request.getType());
         try {
             launcher.setRegistrationDate(Objects.nonNull(request.getRegistrationDate()) ? new SimpleDateFormat("dd-MM-yyyy").parse(request.getRegistrationDate()) : null);
@@ -63,8 +63,8 @@ public class LauncherService {
         return objectMapper.convertValue(launcher, LauncherResponse.class);
     }
 
-    public LauncherResponse update(String launcherId, LauncherRequest request){
-        Launcher launcher = launcherManager.getLauncher(launcherId).orElseThrow(() -> new RuntimeException("Launcher not found"));
+    public LauncherResponse update(String launcherCode, LauncherRequest request){
+        Launcher launcher = launcherManager.getLauncher(launcherCode).orElseThrow(() -> new RuntimeException("Launcher not found"));
         launcher.setType(Objects.nonNull(request.getType()) ? request.getType() : launcher.getType());
         try{
             launcher.setRegistrationDate(Objects.nonNull(request.getRegistrationDate()) ? new SimpleDateFormat("dd-MM-yyyy").parse(request.getRegistrationDate()) : launcher.getRegistrationDate());
@@ -74,8 +74,8 @@ public class LauncherService {
         return objectMapper.convertValue(launcherManager.save(launcher), LauncherResponse.class);
     }
 
-    public void delete(String launcherId){
-        Launcher launcher = launcherManager.getLauncher(launcherId)
+    public void delete(String launcherCode){
+        Launcher launcher = launcherManager.getLauncher(launcherCode)
                 .orElseThrow(()-> new RuntimeException("Could not find launcher"));
         launcherManager.delete(launcher);
     }

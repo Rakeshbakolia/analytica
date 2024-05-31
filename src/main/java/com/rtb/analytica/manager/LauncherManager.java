@@ -28,11 +28,11 @@ public class LauncherManager {
         launcherRepository.delete(launcher);
     }
 
-    public Optional<Launcher> getLauncher(String launcherId){
-        return launcherRepository.findByLauncherId(launcherId);
+    public Optional<Launcher> getLauncher(String launcherCode){
+        return launcherRepository.findByLauncherCode(launcherCode);
     }
 
-    public Set<Launcher> getLaunchers(Collection<String> ids){
-        return launcherRepository.findByLauncherIdIn(ids);
+    public Set<Launcher> getLaunchers(Collection<String> codes){
+        return launcherRepository.findByLauncherCodeIn(codes);
     }
 }

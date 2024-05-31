@@ -8,9 +8,11 @@ import java.util.List;
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SatelliteFilterRequest {
-    private List<String> satelliteIds;
-    private List<String> launcherIds;
+    private List<String> satelliteCodes;
+    private List<String> launcherCodes;
     private List<String> countries;
-    private List<Double> massList;
-    private DateRange dateRange;
+    private Double minMass;
+    private Double maxMass;
+    private String startDate;
+    private String endDate;
 }
